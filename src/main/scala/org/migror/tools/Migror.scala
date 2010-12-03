@@ -22,6 +22,9 @@ import org.migror.model.Migration
  */
 class Migror(migration: Migration) {
 
+  /**
+   * Executes all steps in this Migration.
+   */
   def execute: Unit = migration.execute
 
   def this(migrationClassName: String) = this(java.lang.Class.forName(migrationClassName).newInstance.asInstanceOf[Migration])
