@@ -15,8 +15,10 @@
  */
 package org.migror.model
 
+/**
+ * A migration definition, consisting of a number of migration steps that can be executed.
+ */
 abstract class Migration {
-
   def steps: List[Step]
 
   def execute: Unit = steps.foreach(_.execute)
