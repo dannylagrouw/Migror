@@ -13,20 +13,27 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License. 
  */
-package org.migror.model
+package org.migror.steps.files
 
-/**
- * A migration definition, consisting of a number of migration steps that can be executed.
- */
-abstract class Migration {
-  def steps: List[Step]
+import java.io.File
+import org.apache.commons.io.FileUtils
+import org.migror.model.Context
 
-  def execute: Unit = steps.foreach(_.execute)
+class MockFilesStep(sourcePath: String) extends FilesStep(sourcePath) {
+
+  val getSourceFiles = List(
+    createTempFile("file1", "file 1 contents"),
+    createTempFile("path1/file2", "file 2 contents")
+  )
+
+  def createTempFile(name: String, contents: String): File = {
+    val f = new File(sourcePath, name)
+    FileUtils.writeStringToFile(f, contents)
+    f
+  }
 
 }
 
-object Migration {
-  def apply(migrationSteps: Step*) = new Migration {
-    def steps = migrationSteps.toList
-  }
+object MockFilesStep {
+  def apply(sourcePath: String) = new MockFilesStep(Context.getFile(sourcePath).getAbsolutePath)
 }

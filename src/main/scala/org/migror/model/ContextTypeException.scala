@@ -13,20 +13,10 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License. 
  */
-package org.migror.model
+package org.migror
 
-/**
- * A migration definition, consisting of a number of migration steps that can be executed.
- */
-abstract class Migration {
-  def steps: List[Step]
+class ContextTypeException(message: String, cause: Throwable) extends RuntimeException(message, cause) {
 
-  def execute: Unit = steps.foreach(_.execute)
-
-}
-
-object Migration {
-  def apply(migrationSteps: Step*) = new Migration {
-    def steps = migrationSteps.toList
-  }
+  def this(message: String) = this(message, null)
+  
 }

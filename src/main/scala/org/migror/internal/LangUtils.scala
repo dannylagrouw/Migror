@@ -23,5 +23,13 @@ object LangUtils {
   }
 
   def nullOr[A <: AnyRef](o: A, defaultValue: A): A = if (o == null) defaultValue else o
-  
+
+  def addShutdownHook(block: => Unit) {
+    Runtime.getRuntime.addShutdownHook(new Thread {
+      override def run {
+        block
+      }
+    })
+  }
+
 }

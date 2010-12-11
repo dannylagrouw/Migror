@@ -16,13 +16,19 @@
 package org.migror.model
 
 import java.util.Properties
-import java.io.FileReader
 import scala.collection._
 import org.migror.internal.{LangUtils, Logging}
 import LangUtils._
 import collection.JavaConverters
+import java.io.{File, FileReader}
+import org.migror.ContextTypeException
 
-class Context extends Logging {
+/**
+ * De context waarbinnen een {@link Migration migratie} wordt uitgevoerd. Wordt
+ * gebruikt om informatie tussen verschillende {@link Step
+ * migratiestappen} uit te wisselen.
+ */
+object Context extends Logging {
 
   val PROPERTIES_FILE_VAR = "migror.properties"
   val PROPERTIES_FILE_NAME = "migror.properties"
@@ -33,15 +39,91 @@ class Context extends Logging {
     val propertiesFile = nullOr(System.getProperty(PROPERTIES_FILE_VAR), PROPERTIES_FILE_NAME)
     try {
       properties.load(new FileReader(propertiesFile))
-      loadProperties(properties)
+      setProperties(properties)
     } catch {
       case e: Exception => warn("Geen migror.properties gevonden in huidige dir of via -Dmigror.properties.")
     }
   }
 
-  def loadProperties(properties: Properties) = {
+  def setProperties(properties: Properties) = {
     JavaConverters.asScalaSetConverter(properties.keySet).asScala.foreach { key =>
       map(key.asInstanceOf[String]) = properties.get(key)
     }
+  }
+
+  def contains(key: String) = map.contains(key)
+
+  def getString(key: String): Option[String] = map.get(key).asInstanceOf[Option[String]]
+  
+  def getString(key: String, defaultValue: String): String = map.getOrElse(key, defaultValue).asInstanceOf[String]
+
+  def put(key: String, value: Any) {
+    map(key) = value
+  }
+
+  /**
+   * Adds <code>value</code> to the List under <code>key</code>.
+   * If no List exists yet, a new one is added first.
+   */
+  def add[T <: Any](key: String, value: T) {
+    map(key) = getList(key) ++ List(value)
+  }
+
+  /**
+   * Adds <code>value</code> to the List under <code>key</code>,
+   * if it is not already in the List.
+   */
+  def addUnique[T <: Any](key: String, value: T) {
+    val list = getList(key)
+    if (!list.contains(value)) {
+      add(key, value)
+    }
+  }
+
+  /**
+   * Returns the List under <code>key</code>.
+   * If no List exists yet, a new empty List is returned.
+   */
+  def getList[T <: Any](key: String): List[T] = map.get(key) match {
+    case Some(l: List[T]) => l
+    case None => List.empty[T]
+    case _ => throw new ContextTypeException("No List of required type present under %s".format(key))
+  }
+
+  def getFile(key: String): File = {
+    map.get(key) match {
+      case Some(f: File) => f
+      case Some(s: String) => new File(s)
+      case value => throw new ContextTypeException("Geen geldige bestandsnaam in property %s: %s".format(key, value))
+    }
+  }
+
+  /**
+   * Returns the entire contents of the Context as a formatted String,
+   * for debugging purposes.
+   */
+  def dump: String = {
+    map.map { entry =>
+      entry._1 + " = " + (entry._2 match {
+        case l: List[_] => l.mkString("[\n - ", "\n - ", "]")
+        case value => value.toString
+      })
+    }.toList.sorted.mkString("\n")
+  }
+
+  /**
+   * Replaces variables in the specified template with their values in
+   * Context. Variables must be in ${...} notation, e.g.
+   * <p>
+   * <code>The value of some-key is ${some-key}.</code>
+   */
+  def replaceVars(template: String) = {
+    map.foldLeft(template) { (s, entry) =>
+      s.replaceAll("\\$\\{" + entry._1 + "\\}", entry._2.toString)
+    }
+  }
+
+  def clear {
+    map.clear
   }
 }

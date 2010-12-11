@@ -13,20 +13,23 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License. 
  */
-package org.migror.model
+package org.migror.steps.files
+
+import org.migror.model.Step
 
 /**
- * A migration definition, consisting of a number of migration steps that can be executed.
+ * Processes a {@link MigrationFile}. This file will be passed by a {@link FilesStep}.
+ * Therefore this step must have a FilesStep as its parent.
  */
-abstract class Migration {
-  def steps: List[Step]
+abstract class FileProcessorStep extends Step {
 
-  def execute: Unit = steps.foreach(_.execute)
+  var migrationFile: Option[MigrationFile] = None
 
-}
-
-object Migration {
-  def apply(migrationSteps: Step*) = new Migration {
-    def steps = migrationSteps.toList
+  override def begin = {
+    super.begin
+    parent match {
+      case Some(step: FilesStep) =>
+      case _ => throw new IllegalStateException("This FileProcessorStep of type %s must be executed within a FilesStep.".format(getClass.getSimpleName))
+    }
   }
 }

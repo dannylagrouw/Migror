@@ -15,18 +15,16 @@
  */
 package org.migror.model
 
-/**
- * A migration definition, consisting of a number of migration steps that can be executed.
- */
-abstract class Migration {
-  def steps: List[Step]
+class MockStep extends Step {
+  var executed = 0
+  var begun = 0
 
-  def execute: Unit = steps.foreach(_.execute)
+  def executeThisStepOnly {
+    executed += 1
+  }
 
-}
-
-object Migration {
-  def apply(migrationSteps: Step*) = new Migration {
-    def steps = migrationSteps.toList
+  override def begin {
+    begun += 1
   }
 }
+

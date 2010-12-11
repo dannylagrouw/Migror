@@ -17,15 +17,7 @@ package org.migror.tools
 
 import org.scalatest.matchers.ShouldMatchers
 import org.scalatest.Spec
-import org.migror.model.{Step, Migration}
-
-class MockStep extends Step {
-  var executed = 0
-
-  def execute {
-    executed = executed + 1
-  }
-}
+import org.migror.model.{MockStep, Step, Migration}
 
 class MockMigration extends Migration {
   val steps = List(new MockStep)
