@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Migror.iml" filepath="$PROJECT_DIR$/Migror.iml" />
+      <module fileurl="file://$PROJECT_DIR$/migror.iml" filepath="$PROJECT_DIR$/migror.iml" />
     </modules>
   </component>
 </project>
