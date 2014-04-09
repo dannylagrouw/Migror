@@ -15,13 +15,19 @@
  */
 package org.migror.model
 
+import org.migror.internal.Logging
+
 /**
  * A migration definition, consisting of a number of migration steps that can be executed.
  */
-abstract class Migration {
+abstract class Migration extends Logging {
   def steps: List[Step]
 
-  def execute: Unit = steps.foreach(_.execute)
+  def execute: Unit = {
+    info("Start migration")
+    steps.foreach(_.execute)
+    info("End of migration")
+  }
 
 }
 

@@ -1,0 +1,37 @@
+package sample.jcs;
+
+import sample.db.SampleDbControl;
+import com.bea.xml.XmlException;
+import org.apache.log4j.Logger;
+import java.util.Date;
+
+/**
+ * @editor-info:code-gen control-interface="true"
+ */
+public class SampleControlImpl implements SampleControl {
+
+    private final static Logger log = Logger.getLogger(SampleControlImpl.class);
+
+    /**
+     * @common:control
+     */
+    private SampleDbControl sampleDbControl;
+
+    /**
+     * Says hello.
+     * From a sample person.
+     * @param name person's name.
+     * @common:operation
+     * @return hello from a sample person.
+     */
+    public java.lang.String sayHello(java.lang.String name) {
+        SamplePerson p = createSamplePerson(name);
+        pstmt.setDate(3, new Date());
+        return p.sayHello();
+    }
+
+    public SamplePerson createSamplePerson(String name) throws XmlException {
+        return new SamplePerson(name);
+    }
+
+}

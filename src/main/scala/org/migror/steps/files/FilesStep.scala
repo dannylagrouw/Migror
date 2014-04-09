@@ -20,10 +20,10 @@ import org.migror.model.{Context, Step}
 
 /**
  * Iterates over a collection of files that must be migrated. Each file is
- * loaded, processed by any child steps, and finally saved at the target
+ * loaded, processed by any child steps, and finally saved to the target
  * location.
  */
-abstract class FilesStep(sourcePath: String) extends Step {
+abstract class FilesStep(sourcePath: String, isRelativePath: Boolean) extends Step {
 
   var targetPath: Option[String] = None
 
@@ -31,10 +31,12 @@ abstract class FilesStep(sourcePath: String) extends Step {
 
   var readOnly = false
 
+  def this(sourcePath: String) = this(sourcePath, true)
+
   /**
    * Returns a collection of files to be processed in this step.
    */
-  def getSourceFiles: Collection[File]
+  def getSourceFiles: Iterable[File]
 
   def executeThisStepOnly = {}
 
@@ -44,13 +46,24 @@ abstract class FilesStep(sourcePath: String) extends Step {
    */
   def fullTargetPath =
     targetPath match {
-      case None => Context.getFile("target.location")
-      case Some(p) => new File(Context.getFile("target.location"), p)
+      case None => Context.targetPath
+      case Some(p) => new File(Context.targetPath, p)
     }
 
+  def fullSourcePath =
+    if (isRelativePath)
+      new File(Context.sourcePath, sourcePath)
+    else
+      new File(Context.replaceVars(sourcePath))
+
+  /**
+   * Execution of this step entails looping over all source files,
+   * passing them to all child steps for processing, and saving the
+   * processed files to the target location.
+   */
   override def execute = {
     getSourceFiles.foreach { sourceFile =>
-      val migrationFile = MigrationFile(sourcePath, sourceFile, fullTargetPath)
+      val migrationFile = MigrationFile(fullSourcePath.getAbsolutePath, sourceFile, fullTargetPath)
       if (include(migrationFile)) {
         info("MigrationFile " + migrationFile)
         steps.foreach { step =>
@@ -62,8 +75,28 @@ abstract class FilesStep(sourcePath: String) extends Step {
         if (!readOnly) {
           migrationFile.writeTargetFile
         }
+      } else {
+        info("Skipping " + migrationFile)
       }
     }
+  }
+
+  /**
+   * Adds a file filter to determine which files will be included for
+   * processing. A file is included if it matches at least one of the
+   * file filters, or if no filters are present.
+   */
+  def add(filter: FileFilter) = {
+    filters ::= filter
+    this
+  }
+
+  /**
+   * Sets the target path where files will be saved after processing.
+   */
+  def setTargetPath(path: String) = {
+    targetPath = Some(path)
+    this
   }
 
   /**
@@ -71,4 +104,13 @@ abstract class FilesStep(sourcePath: String) extends Step {
    */
   def include(migrationFile: MigrationFile) =
     filters.isEmpty || filters.exists(_.matches(migrationFile))
+
+  /**
+   * Marks this files step as readonly, meaning processed files will
+   * not be saved to the target location.
+   */
+  def setReadOnly(readOnly: Boolean) = {
+    this.readOnly = readOnly
+    this
+  }
 }

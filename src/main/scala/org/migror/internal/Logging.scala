@@ -20,7 +20,7 @@ import org.apache.log4j.Level._
 
 trait Logging {
 
-  private[this] val logger = Logger.getLogger(getClass().getName());
+  val logger = Logger.getLogger(getClass().getName());
 
   def debug(message: => String) = if (logger.isEnabledFor(DEBUG)) logger.debug(message)
   def debug(message: => String, ex:Throwable) = if (logger.isEnabledFor(DEBUG)) logger.debug(message,ex)

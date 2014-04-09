@@ -1,0 +1,75 @@
+package sample.db;
+
+import com.bea.control.DatabaseControl;
+
+/**
+ * Defines a new database control.
+ *
+ * The @jc:connection tag indicates which WebLogic data source will be used by
+ * this database control. Please change this to suit your needs. You can see a
+ * list of available data sources by going to the WebLogic console in a browser
+ * (typically http://localhost:7001/console) and clicking Services, JDBC,
+ * Data Sources.
+ *
+ * @jc:connection data-source-jndi-name="mydb"
+ */
+public interface SampleDBControl extends DatabaseControl, com.bea.control.ControlExtension
+{
+    // Sample database function.  Uncomment to use
+
+    // static public class Customer
+    // {
+    //   public int id;
+    //   public String name;
+    // }
+    //
+    // /**
+    //  * @jc:sql statement="SELECT ID, NAME FROM CUSTOMERS WHERE ID = {id}"
+    //  */
+    // Customer findCustomer(int id);
+
+    // Add "throws SQLException" to request that SQLExeptions be thrown on errors.
+
+    static final long serialVersionUID = 1L;
+
+    /**
+     * @jc:sql statement="select code, description, start_date as startDate from sample_record where code like {code}"
+     */
+    public SampleRecord getSampleRecord(String code);
+
+    /**
+     * @jc:sql statement="select code, description, start_date as startDate from sample_record order by code"
+     */
+    public SampleRecord[] getAllSampleRecords();
+
+    /**
+     * @jc:sql statement::
+     * update sample_record
+     * set description={sampleRecord.description}
+     * , start_date={sampleRecord.startDate}
+     * where code={sampleRecord.code}::
+     */
+    public void updateSampleRecord(SampleRecord sampleRecord);
+
+
+    /**
+     * @jc:sql statement::
+     * delete from sample_record
+     * where code={samplerecord.code}::
+     */
+    public void deleteSampleRecord(SampleRecord sampleRecord);
+
+
+    /**
+     * @jc:sql statement::
+     * insert into sample_record
+     * (code,
+     *  description,
+     *  start_date)
+     * values(
+     * {sampleRecord.code},
+     * {sampleRecord.description},
+     * {sampleRecord.startDate})::
+     */
+    public void createSampleRecord(SampleRecord sampleRecord);
+}

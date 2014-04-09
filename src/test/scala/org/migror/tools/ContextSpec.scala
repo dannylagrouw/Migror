@@ -17,9 +17,8 @@ package org.migror.tools
 
 import org.scalatest.matchers.ShouldMatchers
 import org.scalatest.Spec
-import org.migror.model.Context
 import java.io.File
-import org.migror.ContextTypeException
+import org.migror.model.{ContextTypeException, Context}
 
 class ContextSpec extends Spec with ShouldMatchers {
 

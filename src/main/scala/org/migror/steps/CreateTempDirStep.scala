@@ -27,7 +27,7 @@ import org.migror.model.{Context, Step}
  * @param prefix
  *            prefix for the temporary directory name.
  * @param contextKey
- *            the path name to the temporary directory will be
+ *            the path name to the temporary directory must be
  *            stored under this key in the Context.
  */
 class CreateTempDirStep(prefix: String, contextKey: String) extends Step {

@@ -23,7 +23,13 @@ import org.migror.model.Step
  */
 abstract class FileProcessorStep extends Step {
 
-  var migrationFile: Option[MigrationFile] = None
+  private var _migrationFile: Option[MigrationFile] = None
+
+  def migrationFile = _migrationFile
+
+  def migrationFile_=(f: Option[MigrationFile]) {
+    _migrationFile = f
+  }
 
   override def begin = {
     super.begin

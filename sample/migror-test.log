@@ -1,0 +1,69 @@
+09-06-11 18:16:43,085 WARN  Context$: Geen migror.properties gevonden in huidige dir of via -Dmigror.properties.
+09-06-11 18:16:43,276 INFO  Migration$$anon$1: Start migration
+09-06-11 18:16:43,282 INFO  CreateTempDirStep: Begin execute
+09-06-11 18:16:43,381 INFO  CreateTempDirStep: Temp dir /var/folders/Ln/Ln9rRVh+FrSrHfalqTwmNk+++TI/-Tmp-/migror-sample-migration1432936147391881307636203282991000 created under key target.path
+09-06-11 18:16:43,382 INFO  FilesWithExtensionStep: Getting source files from WebLogicProject/WebLogicCommon
+09-06-11 18:16:43,643 INFO  FilesWithExtensionStep: MigrationFile JavaFile, sourceFile=/Users/danny/Documents/Projecten/Migror/sample/WebLogicProject/WebLogicCommon/sample/pojo/SamplePojo.java, targetFile=/var/folders/Ln/Ln9rRVh+FrSrHfalqTwmNk+++TI/-Tmp-/migror-sample-migration1432936147391881307636203282991000/org.migrorsample.common/src/main/java/sample/pojo/SamplePojo.java
+09-06-11 18:16:43,644 INFO  PackageRenameStep: Begin execute
+09-06-11 18:16:43,693 INFO  PackageRenameStep$$anon$1: Refactoring: import 'sample.rename.me.SampleRename' becomes 'sample.is.renamed.SampleRename'
+09-06-11 18:16:43,694 INFO  PackageRenameStep$$anon$1: Refactoring: package of class 'SampleRename' changed from 'sample.rename.me' into 'sample.is.renamed' and added to imports
+09-06-11 18:16:43,720 INFO  FilesWithExtensionStep: MigrationFile JavaFile, sourceFile=/Users/danny/Documents/Projecten/Migror/sample/WebLogicProject/WebLogicCommon/sample/pojo/SampleRemove.java, targetFile=/var/folders/Ln/Ln9rRVh+FrSrHfalqTwmNk+++TI/-Tmp-/migror-sample-migration1432936147391881307636203282991000/org.migrorsample.common/src/main/java/sample/pojo/SampleRemove.java
+09-06-11 18:16:43,720 INFO  PackageRenameStep: Begin execute
+09-06-11 18:16:43,725 INFO  FilesWithExtensionStep: MigrationFile JavaFile, sourceFile=/Users/danny/Documents/Projecten/Migror/sample/WebLogicProject/WebLogicCommon/sample/rename/me/SampleRename.java, targetFile=/var/folders/Ln/Ln9rRVh+FrSrHfalqTwmNk+++TI/-Tmp-/migror-sample-migration1432936147391881307636203282991000/org.migrorsample.common/src/main/java/sample/rename/me/SampleRename.java
+09-06-11 18:16:43,727 INFO  PackageRenameStep: Begin execute
+09-06-11 18:16:43,728 INFO  PackageRenameStep$$anon$1: Renaming: package 'sample.rename.me' becomes 'sample.is.renamed'
+09-06-11 18:16:43,729 INFO  FilesWithExtensionStep: Getting source files from WebLogicProject/WebLogicControls
+09-06-11 18:16:43,733 INFO  FilesWithExtensionStep: MigrationFile JavaFile, sourceFile=/Users/danny/Documents/Projecten/Migror/sample/WebLogicProject/WebLogicControls/sample/jcs/SampleControlImpl.jcs, targetFile=/var/folders/Ln/Ln9rRVh+FrSrHfalqTwmNk+++TI/-Tmp-/migror-sample-migration1432936147391881307636203282991000/org.migrorsample.services/src/main/java/sample/jcs/SampleControlImpl.java
+09-06-11 18:16:43,734 INFO  WebLogicControlReferenceStep: Begin execute
+09-06-11 18:16:43,734 INFO  JcsMigrationStep: Begin execute
+09-06-11 18:16:43,738 INFO  FullyQualifiedTypesCleanupStep: Begin execute
+09-06-11 18:16:43,738 INFO  ThrowsSignatureCleanupStep: Begin execute
+09-06-11 18:16:43,739 INFO  WebLogicAnnotationsCleanupStep: Begin execute
+09-06-11 18:16:43,748 DEBUG WebLogicAnnotationsCleanupStep$$anon$1: Removed JavaDoc line ' * @editor-info:code-gen control-interface="true"' from element SampleControlBean in class ClassOrInterfaceDeclaration
+09-06-11 18:16:43,749 DEBUG WebLogicAnnotationsCleanupStep$$anon$1: Removed JavaDoc from element SampleControlBean in class ClassOrInterfaceDeclaration
+09-06-11 18:16:43,751 DEBUG WebLogicAnnotationsCleanupStep$$anon$1: Removed JavaDoc line '     * @common:control' from element sampleDbControl in class FieldDeclaration
+09-06-11 18:16:43,751 DEBUG WebLogicAnnotationsCleanupStep$$anon$1: Removed JavaDoc from element sampleDbControl in class FieldDeclaration
+09-06-11 18:16:43,751 DEBUG WebLogicAnnotationsCleanupStep$$anon$1: Removed JavaDoc line '     * @common:operation' from element sayHello in class MethodDeclaration
+09-06-11 18:16:43,751 INFO  ReplaceStep: Begin execute
+09-06-11 18:16:43,762 INFO  StaticLoggerCorrectionStep: Begin execute
+09-06-11 18:16:43,807 INFO  StaticLoggerCorrectionStep$$anon$1: Static Logger type changed from SampleControlImpl.class to SampleControlBean.class
+09-06-11 18:16:43,828 INFO  PackageRenameStep: Begin execute
+09-06-11 18:16:43,831 INFO  FilesWithExtensionStep: Getting source files from WebLogicProject/WebLogicControls
+09-06-11 18:16:43,833 INFO  FilesWithExtensionStep: MigrationFile JavaFile, sourceFile=/Users/danny/Documents/Projecten/Migror/sample/WebLogicProject/WebLogicControls/sample/db/SampleRecord.java, targetFile=/var/folders/Ln/Ln9rRVh+FrSrHfalqTwmNk+++TI/-Tmp-/migror-sample-migration1432936147391881307636203282991000/org.migrorsample.services/src/main/java/sample/db/SampleRecord.java
+09-06-11 18:16:43,833 INFO  FullyQualifiedTypesCleanupStep: Begin execute
+09-06-11 18:16:43,833 INFO  WebLogicControlInterfaceStep: Begin execute
+09-06-11 18:16:43,833 INFO  ReplaceStep: Begin execute
+09-06-11 18:16:43,836 INFO  PackageRenameStep: Begin execute
+09-06-11 18:16:43,840 INFO  FilesWithExtensionStep: MigrationFile JavaFile, sourceFile=/Users/danny/Documents/Projecten/Migror/sample/WebLogicProject/WebLogicControls/sample/jcs/SampleControl.java, targetFile=/var/folders/Ln/Ln9rRVh+FrSrHfalqTwmNk+++TI/-Tmp-/migror-sample-migration1432936147391881307636203282991000/org.migrorsample.services/src/main/java/sample/jcs/SampleControl.java
+09-06-11 18:16:43,840 INFO  FullyQualifiedTypesCleanupStep: Begin execute
+09-06-11 18:16:43,840 INFO  WebLogicControlInterfaceStep: Begin execute
+09-06-11 18:16:43,841 INFO  ReplaceStep: Begin execute
+09-06-11 18:16:43,842 INFO  PackageRenameStep: Begin execute
+09-06-11 18:16:43,844 INFO  FilesWithExtensionStep: MigrationFile JavaFile, sourceFile=/Users/danny/Documents/Projecten/Migror/sample/WebLogicProject/WebLogicControls/sample/jcs/SamplePerson.java, targetFile=/var/folders/Ln/Ln9rRVh+FrSrHfalqTwmNk+++TI/-Tmp-/migror-sample-migration1432936147391881307636203282991000/org.migrorsample.services/src/main/java/sample/jcs/SamplePerson.java
+09-06-11 18:16:43,844 INFO  FullyQualifiedTypesCleanupStep: Begin execute
+09-06-11 18:16:43,845 INFO  WebLogicControlInterfaceStep: Begin execute
+09-06-11 18:16:43,845 INFO  ReplaceStep: Begin execute
+09-06-11 18:16:43,846 INFO  PackageRenameStep: Begin execute
+09-06-11 18:16:43,847 INFO  FilesWithExtensionStep: Getting source files from WebLogicProject/WebLogicWeb/webservices
+09-06-11 18:16:43,854 INFO  FilesWithExtensionStep: MigrationFile JavaFile, sourceFile=/Users/danny/Documents/Projecten/Migror/sample/WebLogicProject/WebLogicWeb/webservices/sample/SampleWebService.jws, targetFile=/var/folders/Ln/Ln9rRVh+FrSrHfalqTwmNk+++TI/-Tmp-/migror-sample-migration1432936147391881307636203282991000/org.migrorsample.web/src/main/java/webservices/sample/SampleWebService.java
+09-06-11 18:16:43,854 INFO  WebLogicControlReferenceStep: Begin execute
+09-06-11 18:16:43,854 INFO  JwsMigrationStep: Begin execute
+09-06-11 18:16:43,963 INFO  JwsMigrationStep$$anon$1: targetNamespace for SampleWebService = org.sample.ws.v1
+09-06-11 18:16:43,964 INFO  JwsMigrationStep$$anon$1: implemented interface for SampleWebService = v1.ws.sample.org.SampleWebServiceSoap
+09-06-11 18:16:43,965 WARN  JwsMigrationStep$$anon$1: Web service SampleWebService not found in context.
+09-06-11 18:16:43,966 WARN  JwsMigrationStep$$anon$1: WSDL for JWS SampleWebServiceSoapImpl probably missing
+09-06-11 18:16:43,978 INFO  FullyQualifiedTypesCleanupStep: Begin execute
+09-06-11 18:16:43,979 INFO  ThrowsSignatureCleanupStep: Begin execute
+09-06-11 18:16:43,979 INFO  WebLogicAnnotationsCleanupStep: Begin execute
+09-06-11 18:16:43,980 DEBUG WebLogicAnnotationsCleanupStep$$anon$1: 
+09-06-11 18:16:43,980 DEBUG WebLogicAnnotationsCleanupStep$$anon$1: Removed JavaDoc line ' * @common:target-namespace namespace="org.sample.ws.v1"' from element SampleWebServiceSoapImpl in class ClassOrInterfaceDeclaration
+09-06-11 18:16:43,980 DEBUG WebLogicAnnotationsCleanupStep$$anon$1: Removed JavaDoc line '     * @common:control' from element sampleControl in class FieldDeclaration
+09-06-11 18:16:43,980 DEBUG WebLogicAnnotationsCleanupStep$$anon$1: Removed JavaDoc from element sampleControl in class FieldDeclaration
+09-06-11 18:16:43,980 DEBUG WebLogicAnnotationsCleanupStep$$anon$1: Removed JavaDoc line '     * @common:operation' from element doSampleThings in class MethodDeclaration
+09-06-11 18:16:43,981 DEBUG WebLogicAnnotationsCleanupStep$$anon$1: Removed JavaDoc from element doSampleThings in class MethodDeclaration
+09-06-11 18:16:43,981 INFO  ReplaceStep: Begin execute
+09-06-11 18:16:44,044 INFO  StaticLoggerCorrectionStep: Begin execute
+09-06-11 18:16:44,044 INFO  PackageRenameStep: Begin execute
+09-06-11 18:16:44,048 INFO  FileDeleteStep: Begin execute
+09-06-11 18:16:44,050 INFO  FileDeleteStep: Deleted File /var/folders/Ln/Ln9rRVh+FrSrHfalqTwmNk+++TI/-Tmp-/migror-sample-migration1432936147391881307636203282991000/org.migrorsample.common/src/main/java/sample/pojo/SampleRemove.java
+09-06-11 18:16:44,068 INFO  Migration$$anon$1: End of migration

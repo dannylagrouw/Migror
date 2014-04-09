@@ -1,0 +1,32 @@
+package webservices.sample;
+
+import java.util.Date;
+import sample.jcs.SampleControl;
+
+/**
+ * @common:target-namespace namespace="org.sample.ws.v1"
+ * @common:security roles-allowed="SampleRole"
+ */
+public class SampleWebService implements com.bea.jws.WebService {
+
+    /**
+     * @common:control
+     */
+    private SampleControl sampleControl;
+
+    /**
+     * @common:operation
+     */
+    public String doSampleThings(Long number, Date date, String name) {
+        String s = number + " " + date + " " + name;
+        for (int i = 0; i < 10; i++) {
+            sampleOperation();
+            System.out.println(s);
+        }
+        return s;
+    }
+
+    private void sampleOperation() {
+        System.out.println("sampleOperation");
+    }
+}

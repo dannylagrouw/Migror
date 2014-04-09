@@ -16,6 +16,7 @@
 package org.migror.model
 
 import org.migror.internal.Logging
+import org.migror.internal.LangUtils.withDoReturn
 
 /**
  * A Migration step. All steps in a migration are executed consecutively (via {@link #execute}).
@@ -36,34 +37,32 @@ abstract class Step extends Logging {
   def executeThisStepOnly: Unit
 
   def execute {
-    if (!skip) {
+    if (skip) {
+      info("Step %s will be skipped, property %s.skip is true".format(getClass.getSimpleName, getClass.getSimpleName))
+    } else {
+      info("Begin execute")
       begin
       steps.foreach(_.execute)
       executeThisStepOnly
     }
   }
 
-  def skip: Boolean = Context.getString(getClass.getSimpleName + ".skip") match {
-    case Some("true") => {
-      info("Step %s will be skipped, property %s.skip is true".format(getClass.getSimpleName, getClass.getSimpleName))
-      true
-    }
-    case _ => false
-  }
+  def skip = Context.getBoolean(getClass.getSimpleName + ".skip")
 
   /**
-   * Adds a child step to this step.
+   * Adds one or more child steps to this step.
    */
-  def add(step: Step) = {
-    steps ++= List(step)
-    step.parent = Some(this)
+  def add(childSteps: Step*): Step = {
+    childSteps.foreach { stepOrSteps => stepOrSteps match {
+      case stepList: StepList =>
+        add(stepList.stepList:_*)
+      case step: Step =>
+        steps ++= List(step)
+        step.parent = Some(this)
+      }
+    }
     this
   }
 
-  def addAll(childSteps: List[Step]) = {
-    childSteps.foreach(add)
-    this
-  }
-  
   def begin {}
 }

@@ -21,17 +21,20 @@ import org.migror.internal.{LangUtils, Logging}
 import LangUtils._
 import collection.JavaConverters
 import java.io.{File, FileReader}
-import org.migror.ContextTypeException
 
 /**
- * De context waarbinnen een {@link Migration migratie} wordt uitgevoerd. Wordt
- * gebruikt om informatie tussen verschillende {@link Step
- * migratiestappen} uit te wisselen.
+ * The context within which a {@link Migration} will be executed.
+ * Facilitates exchange of information between different
+ * {@link Step migration steps}.
  */
 object Context extends Logging {
 
   val PROPERTIES_FILE_VAR = "migror.properties"
   val PROPERTIES_FILE_NAME = "migror.properties"
+  val SOURCE_PATH = "source.path"
+  val TARGET_PATH = "target.path"
+  val ADDITIONAL_CLASSES = "additional.classes.to.include"
+  val JAXWS_BINDING_FILE_TEMPLATE = "jaxws.binding.file.template"
   var map = mutable.Map.empty[String, Any]
 
   {
@@ -56,6 +59,11 @@ object Context extends Logging {
   def getString(key: String): Option[String] = map.get(key).asInstanceOf[Option[String]]
   
   def getString(key: String, defaultValue: String): String = map.getOrElse(key, defaultValue).asInstanceOf[String]
+
+  def getBoolean(key: String): Boolean = getString(key) match {
+    case Some("true") => true
+    case _ => false
+  }
 
   def put(key: String, value: Any) {
     map(key) = value
@@ -94,7 +102,21 @@ object Context extends Logging {
     map.get(key) match {
       case Some(f: File) => f
       case Some(s: String) => new File(s)
-      case value => throw new ContextTypeException("Geen geldige bestandsnaam in property %s: %s".format(key, value))
+      case value => throw new ContextTypeException("No valid file name found in property %s: %s".format(key, value))
+    }
+  }
+
+  def removeValue[T <: Any](value: T) {
+    map.foreach { entry => entry._2 match {
+      case v: T =>
+        if (v == value) {
+          println("Found value under key " + entry._1)
+        }
+      case s: String =>
+        if (s == value.toString) {
+          println("Found string value under key " + entry._1)
+        }
+    }
     }
   }
 
@@ -126,4 +148,8 @@ object Context extends Logging {
   def clear {
     map.clear
   }
+
+  def sourcePath = getFile(SOURCE_PATH)
+
+  def targetPath = getFile(TARGET_PATH)
 }

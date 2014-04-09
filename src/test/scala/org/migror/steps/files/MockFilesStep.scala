@@ -19,12 +19,13 @@ import java.io.File
 import org.apache.commons.io.FileUtils
 import org.migror.model.Context
 
-class MockFilesStep(sourcePath: String) extends FilesStep(sourcePath) {
+class MockFilesStep(sourcePath: String, prefix: String) extends FilesStep(sourcePath, false) {
 
-  val getSourceFiles = List(
-    createTempFile("file1", "file 1 contents"),
-    createTempFile("path1/file2", "file 2 contents")
-  )
+  val sourceFilenames = List(prefix + "-file1", "path1/" + prefix + "-file2")
+
+  val getSourceFiles = sourceFilenames.map { name =>
+    createTempFile(name, name + " contents")
+  }
 
   def createTempFile(name: String, contents: String): File = {
     val f = new File(sourcePath, name)
@@ -35,5 +36,5 @@ class MockFilesStep(sourcePath: String) extends FilesStep(sourcePath) {
 }
 
 object MockFilesStep {
-  def apply(sourcePath: String) = new MockFilesStep(Context.getFile(sourcePath).getAbsolutePath)
+  def apply(sourcePathContextKey: String) = new MockFilesStep(Context.getFile(sourcePathContextKey).getAbsolutePath, sourcePathContextKey)
 }
